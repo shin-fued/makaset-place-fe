@@ -11,9 +11,10 @@ import {
 export default function KPlusBankingApp({ children }: { children: React.ReactNode })  {
   const [form, setForm] = useState({
       plantType: "",
-      amount: "",
-      price: "",
-      deliveryAddress: "",
+      selectedField: "",
+      timeFrame: "",
+      priceMin: "",
+      priceMax: "",
     });
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -42,7 +43,7 @@ export default function KPlusBankingApp({ children }: { children: React.ReactNod
         </div>
         <div className="w-full max-w-sm mx-auto bg-white rounded-2xl shadow-md p-6 space-y-8 mt-4 mb-4">
           <h2 className="text-lg font-semibold text-center text-gray-800">
-            Biomatter Request
+            Sell Biomatter
           </h2>
 
           <div className="space-y-8">
@@ -67,16 +68,19 @@ export default function KPlusBankingApp({ children }: { children: React.ReactNod
 
             <div>
               <label className="block text-xs font-medium text-gray-700 mb-3">
-                Amount (kg)
+                Selected Field
               </label>
-              <input
-                type="number"
-                name="amount"
-                value={form.amount}
+              <select
+                name="selectedField"
+                value={form.selectedField}
                 onChange={handleChange}
-                className="mt-1 block w-full rounded-lg border border-gray-300 shadow-sm p-3 focus:ring-blue-500 focus:border-blue-500"
-                placeholder="Enter amount"
-                required />
+                className="mt-1 block w-full rounded-lg border border-gray-300 shadow-sm p-3 focus:ring-blue-500 focus:border-blue-500 bg-white"
+                required
+              >
+                <option value="">Select Field</option>
+                <option value="field1">Field 1</option>
+                <option value="field2">Field 2</option>
+              </select>
             </div>
 
             <div>
@@ -84,33 +88,47 @@ export default function KPlusBankingApp({ children }: { children: React.ReactNod
 
             <div>
               <label className="block text-xs font-medium text-gray-700 mb-3">
-                Price Offering (per kg)
+                Time Frame
               </label>
-              <input
-                type="number"
-                name="price"
-                value={form.price}
+              <select
+                name="timeFrame"
+                value={form.timeFrame}
                 onChange={handleChange}
-                className="mt-1 block w-full rounded-lg border border-gray-300 shadow-sm p-3 focus:ring-blue-500 focus:border-blue-500"
-                placeholder="Enter price"
-                required />
+                className="mt-1 block w-full rounded-lg border border-gray-300 shadow-sm p-3 focus:ring-blue-500 focus:border-blue-500 bg-white"
+                required
+              >
+                <option value="">timeFrame</option>
+                <option value="days1">1 day</option>
+                <option value="days2">2 days</option>
+                <option value="week">7 days</option>
+              </select>
             </div>
           </div>
-
-                      <div>
+           <div>
               <label className="block text-xs font-medium text-gray-700 mb-3">
-                Delivery Address
+                Sell Price Range (per kg)
               </label>
-              <input
-                type="number"
-                name="amount"
-                value={form.deliveryAddress}
-                onChange={handleChange}
-                className="mt-1 block w-full rounded-lg border border-gray-300 shadow-sm p-3 focus:ring-blue-500 focus:border-blue-500"
-                placeholder="Enter amount"
-                required />
+              <div className="flex gap-2">
+                <input
+                  type="number"
+                  name="priceMin"
+                  value={form.priceMin || ""}
+                  onChange={handleChange}
+                  className="mt-1 block w-1/2 rounded-lg border border-gray-300 shadow-sm p-3 focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="Min"
+                  required
+                />
+                <input
+                  type="number"
+                  name="priceMax"
+                  value={form.priceMax || ""}
+                  onChange={handleChange}
+                  className="mt-1 block w-1/2 rounded-lg border border-gray-300 shadow-sm p-3 focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="Max"
+                  required
+                />
+              </div>
             </div>
-           
 
           <button
             onClick={handleSubmit}
