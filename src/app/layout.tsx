@@ -10,7 +10,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <DeliveryTracker />
+        <h1>
+          <DeliveryTracker/>
+          </h1>
       </body>
     </html>
   );

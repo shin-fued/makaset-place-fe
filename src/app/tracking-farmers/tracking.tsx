@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
-import { ChevronLeft, MapPin, Clock, CheckCircle, Package, Truck, FileText, Users, CreditCard } from 'lucide-react';
+import { MapPin, Clock, CheckCircle, Truck, FileText, Users, CreditCard, Leaf } from 'lucide-react';
 import Logo from '../components/logo';
 import BottomBar from '../components/bottom-bar';
 
@@ -31,6 +31,7 @@ interface DeliveryData {
 
 export default function DeliveryTracker() {
   const [selectedStatus, setSelectedStatus] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState("tracking");
   
   // Mock data for parcel counts at each status
   const [statusCounts] = useState<StatusCount[]>([
@@ -51,14 +52,14 @@ export default function DeliveryTracker() {
     {
       status: "Tractor Gathering",
       count: 5,
-      icon: Truck,
+      icon: Leaf,
       color: "text-purple-600",
       bgColor: "bg-purple-100 hover:bg-purple-200 border-purple-300"
     },
     {
-      status: "Inspection",
+      status: "Transport",
       count: 3,
-      icon: Package,
+      icon: Truck,
       color: "text-indigo-600",
       bgColor: "bg-indigo-100 hover:bg-indigo-200 border-indigo-300"
     },
@@ -278,7 +279,7 @@ export default function DeliveryTracker() {
           </div>
         </div>
         </div>
-        <BottomBar />
+       <BottomBar activeTab={activeTab} setActiveTab={setActiveTab} />
     </div>
   );
 }
