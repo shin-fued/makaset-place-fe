@@ -34,6 +34,7 @@ export default function BiomatterApp() {
   const [selectedItem, setSelectedItem] = useState<RowData | null>(null);
   const [showPopup, setShowPopup] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+const [activeTab, setActiveTab] = useState("marketPlace");
 
   // Sample biomatter data
   const [data] = useState([
@@ -448,9 +449,8 @@ export default function BiomatterApp() {
           </div>
         </div>
       )}
-
       {/* Simple Bottom Bar Placeholder */}
-      <BottomBar/>
+      <BottomBar activeTab={activeTab} setActiveTab={setActiveTab} />
     </div>
   );
 }

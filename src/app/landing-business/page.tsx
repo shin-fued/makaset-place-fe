@@ -14,6 +14,7 @@ export default function KPlusBankingApp({ children }: { children: React.ReactNod
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
+  const [activeTab, setActiveTab] = useState("request");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -116,9 +117,8 @@ export default function KPlusBankingApp({ children }: { children: React.ReactNod
           </button>
         </div>
         <div>
-        
         </div>
-        <BottomBar/>
+        <BottomBar activeTab={activeTab} setActiveTab={setActiveTab} />
       </div>
     </>
   );
