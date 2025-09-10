@@ -1,6 +1,7 @@
 "use client"
 
 import React, { useState } from 'react';
+import Logo from '../components/logo';
 import { 
   Search, 
   Filter, 
@@ -13,74 +14,88 @@ import {
   Calendar,
   Package
 } from 'lucide-react';
-import Image from 'next/image';
 import BottomBar from '../components/bottom-bar';
 
 interface RowData {
   id: number;
   name: string;
-  location: string;
+  deliveryAddress: string;
   phoneNumber: string;
   plantType: string;
-  raiSize: string;
-  maxPrice: string;
-  minPrice: string;
-  postedDate: string;
+  price: string;
+  amount: string;
+  PostedDate: string;
 }
 
 export default function BiomatterApp() {
   const [searchTerm, setSearchTerm] = useState('');
-    const [sortConfig, setSortConfig] = useState({ key: "", direction: 'asc' });
-    const [showFilters, setShowFilters] = useState(false);
-    const [selectedItem, setSelectedItem] = useState<RowData | null>(null);
-    const [showPopup, setShowPopup] = useState(false);
-    const [isSubmitting, setIsSubmitting] = useState(false);
+  const [sortConfig, setSortConfig] = useState({ key: "", direction: 'asc' });
+  const [showFilters, setShowFilters] = useState(false);
+  const [selectedItem, setSelectedItem] = useState<RowData | null>(null);
+  const [showPopup, setShowPopup] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Sample biomatter data
   const [data] = useState([
     {
       id: 1,
-      name: 'Somchai Jaidee',
-      location: 'Chiang Mai',
+      name: 'Bangchak',
+      deliveryAddress: 'Chiang Mai',
       phoneNumber: '081-234-5678',
       plantType: 'Rice',
-      raiSize: '15 rai',
-      maxPrice: '₿25,000',
-      minPrice: '₿20,000',
-      postedDate: '2024-01-15'
+      price: '₿2.5',
+      amount: '20000 kg',
+      PostedDate: '2025-01-15'
     },
     {
       id: 2,
-      name: 'Malee Suksawat',
-      location: 'Nakhon Pathom',
-      phoneNumber: '089-876-5432',
+      name: 'Sompong Farm',
+      deliveryAddress: 'Bangkok',
+      phoneNumber: '089-765-4321',
       plantType: 'Corn',
-      raiSize: '8 rai',
-      maxPrice: '₿18,000',
-      minPrice: '₿15,000',
-      postedDate: '2024-02-20'
+      price: '₿1.8',
+      amount: '15000 kg',
+      PostedDate: '2025-01-18'
     },
     {
       id: 3,
-      name: 'Prayut Kaewta',
-      location: 'Surin',
+      name: 'Golden Valley Co.',
+      deliveryAddress: 'Phuket',
       phoneNumber: '092-345-6789',
-      plantType: 'Cassava',
-      raiSize: '20 rai',
-      maxPrice: '₿35,000',
-      minPrice: '₿30,000',
-      postedDate: '2024-03-10'
+      plantType: 'Sugarcane',
+      price: '₿3.2',
+      amount: '35000 kg',
+      PostedDate: '2025-01-20'
     },
     {
       id: 4,
-      name: 'Siriporn Thanakit',
-      location: 'Ubon Ratchathani',
+      name: 'Green Harvest Ltd.',
+      deliveryAddress: 'Pattaya',
       phoneNumber: '087-654-3210',
-      plantType: 'Sugar Cane',
-      raiSize: '12 rai',
-      maxPrice: '₿22,000',
-      minPrice: '₿18,000',
-      postedDate: '2024-01-28'
+      plantType: 'Cassava',
+      price: '₿2.1',
+      amount: '25000 kg',
+      PostedDate: '2025-01-22'
+    },
+    {
+      id: 5,
+      name: 'Nakhon Agriculture',
+      deliveryAddress: 'Nakhon Ratchasima',
+      phoneNumber: '083-987-6543',
+      plantType: 'Soybeans',
+      price: '₿2.8',
+      amount: '18000 kg',
+      PostedDate: '2025-01-25'
+    },
+    {
+      id: 6,
+      name: 'Sunshine Crops',
+      deliveryAddress: 'Khon Kaen',
+      phoneNumber: '095-123-4567',
+      plantType: 'Rice',
+      price: '₿2.3',
+      amount: '22000 kg',
+      PostedDate: '2025-01-28'
     }
   ]);
 
@@ -91,16 +106,6 @@ export default function BiomatterApp() {
     }
     setSortConfig({ key, direction });
   };
-
-  const filteredAndSortedData = React.useMemo(() => {
-    const filteredData = data.filter(item =>
-      Object.values(item).some(value =>
-        value.toString().toLowerCase().includes(searchTerm.toLowerCase())
-      )
-    );
-
-    return filteredData;
-  }, [data, searchTerm]);
 
   const handleRowClick = (item: RowData) => {
     setSelectedItem(item);
@@ -126,28 +131,32 @@ export default function BiomatterApp() {
     setSelectedItem(null);
   };
 
+  const filteredAndSortedData = React.useMemo(() => {
+    const filteredData = data.filter(item =>
+      Object.values(item).some(value =>
+        value.toString().toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    );
+
+    return filteredData;
+  }, [data, searchTerm]);
+
   const getPlantTypeColor = (plantType: string) => {
     switch (plantType.toLowerCase()) {
       case 'rice': return 'bg-green-100 text-green-800';
       case 'corn': return 'bg-yellow-100 text-yellow-800';
       case 'cassava': return 'bg-purple-100 text-purple-800';
-      case 'sugar cane': return 'bg-blue-100 text-blue-800';
+      case 'sugarcane': return 'bg-blue-100 text-blue-800';
+      case 'soybeans': return 'bg-red-100 text-red-800';
       default: return 'bg-gray-100 text-gray-800';
     }
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-gray-50">
-
+    <div className="min-h-screen flex flex-col bg-gray-50 relative">
       {/* Logo Section */}
-      <div className="flex flex-col items-center justify-start pt-6 pb-4 px-4">
-        <Image
-                    src="/makasetPlace logo.jpg"
-                    alt="A healthy plant"
-                    width={120}
-                    height={80}
-                    className="rounded-lg shadow" />
-      </div>
+      <Logo/>
+      
 
       {/* Main Content */}
       <div className="flex-1 px-4 pb-20">
@@ -192,11 +201,11 @@ export default function BiomatterApp() {
                     )}
                   </button>
                   <button
-                    onClick={() => handleSort('location')}
+                    onClick={() => handleSort('deliveryAddress')}
                     className="flex items-center gap-1 hover:text-gray-700 transition-colors text-left"
                   >
                     Location
-                    {sortConfig.key === 'location' && (
+                    {sortConfig.key === 'deliveryAddress' && (
                       sortConfig.direction === 'asc' ? <ChevronUp size={16} /> : <ChevronDown size={16} />
                     )}
                   </button>
@@ -210,29 +219,29 @@ export default function BiomatterApp() {
                     )}
                   </button>
                   <button
-                    onClick={() => handleSort('raiSize')}
+                    onClick={() => handleSort('amount')}
                     className="flex items-center gap-1 hover:text-gray-700 transition-colors text-left"
                   >
-                    Farm Size
-                    {sortConfig.key === 'raiSize' && (
+                    Amount
+                    {sortConfig.key === 'amount' && (
                       sortConfig.direction === 'asc' ? <ChevronUp size={16} /> : <ChevronDown size={16} />
                     )}
                   </button>
                   <button
-                    onClick={() => handleSort('maxPrice')}
+                    onClick={() => handleSort('price')}
                     className="flex items-center gap-1 hover:text-gray-700 transition-colors text-left"
                   >
-                    Max Price
-                    {sortConfig.key === 'maxPrice' && (
+                    Price per kg
+                    {sortConfig.key === 'price' && (
                       sortConfig.direction === 'asc' ? <ChevronUp size={16} /> : <ChevronDown size={16} />
                     )}
                   </button>
                   <button
-                    onClick={() => handleSort('minPrice')}
+                    onClick={() => handleSort('PostedDate')}
                     className="flex items-center gap-1 hover:text-gray-700 transition-colors text-left"
                   >
-                    Min Price
-                    {sortConfig.key === 'minPrice' && (
+                    Posted Date
+                    {sortConfig.key === 'PostedDate' && (
                       sortConfig.direction === 'asc' ? <ChevronUp size={16} /> : <ChevronDown size={16} />
                     )}
                   </button>
@@ -241,10 +250,10 @@ export default function BiomatterApp() {
             </div>
 
             {/* Table Rows */}
-            <div className="divide-y divide-gray-200 py">
+            <div className="divide-y divide-gray-200">
               {filteredAndSortedData.length === 0 ? (
                 <div className="px-6 py-12 text-center">
-                  <p className="text-gray-500">No farmers found matching your search.</p>
+                  <p className="text-gray-500">No Sellers found matching your search.</p>
                 </div>
               ) : (
                 filteredAndSortedData.map((item) => (
@@ -253,14 +262,13 @@ export default function BiomatterApp() {
                     onClick={() => handleRowClick(item)}
                     className="p-4 rounded-xl border border-gray-200 shadow-sm hover:bg-gray-50 hover:shadow-md transition-all cursor-pointer mb-4 active:scale-[0.98]"
                   >
-                  <div key={item.id} className="p-4 rounded-xl border border-gray-200 shadow-sm hover:bg-gray-50 transition-colors mb-4">
                     {/* Mobile Card Layout */}
                     <div className="md:hidden space-y-3">
                       <div className="flex justify-between items-start">
                         <div>
                           <h3 className="font-semibold text-gray-900">{item.name}</h3>
                           <p className="text-sm text-gray-500">{item.phoneNumber}</p>
-                          <p className="text-sm text-gray-500">{item.location}</p>
+                          <p className="text-sm text-gray-500">{item.deliveryAddress}</p>
                         </div>
                         <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getPlantTypeColor(item.plantType)}`}>
                           {item.plantType}
@@ -268,37 +276,38 @@ export default function BiomatterApp() {
                       </div>
                       <div className="grid grid-cols-2 gap-3 text-sm">
                         <div>
-                          <span className="font-medium text-gray-500">Farm Size:</span>
-                          <span className="ml-1 text-gray-900">{item.raiSize}</span>
+                          <span className="font-medium text-gray-500">Amount wanted:</span>
+                          <span className="ml-1 text-gray-900">{item.amount}</span>
                         </div>
                         <div>
-                          <span className="font-medium text-gray-500">Price Range:</span>
+                          <span className="font-medium text-gray-500">Price per kg:</span>
                           <div className="ml-1 text-gray-900">
-                            <div className="text-green-600 font-semibold">{item.minPrice}</div>
-                            <div className="text-gray-500 text-xs">to {item.maxPrice}</div>
+                            <div className="text-green-600 font-semibold">{item.price}</div>
                           </div>
                         </div>
                       </div>
                       <div className="text-sm">
-                        <span className="font-medium text-gray-500">Posted On:</span>
-                        <span className="ml-1 text-gray-900">{item.postedDate}</span>
+                        <span className="font-medium text-gray-500">Posted:</span>
+                        <span className="ml-1 text-gray-900">{item.PostedDate}</span>
+                      </div>
+                      <div className="mt-2 pt-2 border-t border-gray-100">
+                        <p className="text-xs text-blue-600 font-medium">👆 Tap to start request</p>
                       </div>
                     </div>
 
                     {/* Desktop Row Layout */}
                     <div className="hidden md:grid md:grid-cols-6 md:gap-4 md:items-center">
                       <div className="font-medium text-gray-900">{item.name}</div>
-                      <div className="text-gray-500">{item.location}</div>
+                      <div className="text-gray-500">{item.deliveryAddress}</div>
                       <div>
                         <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getPlantTypeColor(item.plantType)}`}>
                           {item.plantType}
                         </span>
                       </div>
-                      <div className="text-gray-900">{item.raiSize}</div>
-                      <div className="font-semibold text-green-600">{item.maxPrice}</div>
-                      <div className="font-semibold text-gray-900">{item.minPrice}</div>
+                      <div className="text-gray-900">{item.amount}</div>
+                      <div className="font-semibold text-green-600">{item.price}</div>
+                      <div className="text-gray-500">{item.PostedDate}</div>
                     </div>
-                  </div>
                   </div>
                 ))
               )}
@@ -308,7 +317,7 @@ export default function BiomatterApp() {
           {/* Footer */}
           <div className="mt-6 flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-gray-500">
             <div>
-              Showing {filteredAndSortedData.length} of {data.length} farmers
+              Showing {filteredAndSortedData.length} of {data.length} sellers
             </div>
             <div className="flex gap-2">
               <button className="px-3 py-1 border border-gray-300 rounded hover:bg-gray-50 transition-colors">
@@ -327,6 +336,7 @@ export default function BiomatterApp() {
           </div>
         </div>
       </div>
+
       {/* Request Confirmation Popup */}
       {showPopup && selectedItem && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
@@ -345,7 +355,7 @@ export default function BiomatterApp() {
             {/* Content */}
             <div className="p-6 space-y-4">
               <div className="text-center mb-4">
-                <p className="text-gray-600 mb-2">You are about to buy biomatter from:</p>
+                <p className="text-gray-600 mb-2">You are about to sell biomatter to:</p>
                 <h3 className="text-2xl font-bold text-gray-900">{selectedItem.name}</h3>
               </div>
 
@@ -364,17 +374,16 @@ export default function BiomatterApp() {
                 <div className="flex items-center gap-3">
                   <Package size={16} className="text-gray-500" />
                   <div>
-                    <span className="font-medium text-gray-700">Rai Size:</span>
-                    <span className="ml-2 text-gray-900">{selectedItem.raiSize}</span>
+                    <span className="font-medium text-gray-700">Amount:</span>
+                    <span className="ml-2 text-gray-900">{selectedItem.amount}</span>
                   </div>
                 </div>
 
                 <div className="flex items-center gap-3">
                   <span className="text-green-600 font-bold">₿</span>
                   <div>
-                    <span className="font-medium text-gray-700">Price range:</span>
-                    <div className="text-green-600 font-semibold">{selectedItem.minPrice}</div>
-                            <div className="text-gray-500 text-xs">to {selectedItem.maxPrice}</div>
+                    <span className="font-medium text-gray-700">Price per kg:</span>
+                    <span className="ml-2 text-green-600 font-bold">{selectedItem.price}</span>
                   </div>
                 </div>
 
@@ -382,7 +391,7 @@ export default function BiomatterApp() {
                   <MapPin size={16} className="text-gray-500" />
                   <div>
                     <span className="font-medium text-gray-700">Location:</span>
-                    <span className="ml-2 text-gray-900">{selectedItem.location}</span>
+                    <span className="ml-2 text-gray-900">{selectedItem.deliveryAddress}</span>
                   </div>
                 </div>
 
@@ -398,14 +407,14 @@ export default function BiomatterApp() {
                   <Calendar size={16} className="text-gray-500" />
                   <div>
                     <span className="font-medium text-gray-700">Posted:</span>
-                    <span className="ml-2 text-gray-900">{selectedItem.postedDate}</span>
+                    <span className="ml-2 text-gray-900">{selectedItem.PostedDate}</span>
                   </div>
                 </div>
               </div>
 
               <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
                 <p className="text-sm text-blue-800">
-                  <strong>Note:</strong> By confirming this request, you will be connected with the seller to discuss details and arrange the biomatter purchase.
+                  <strong>Note:</strong> By confirming this request, you will be connected with the buyer to discuss details and arrange the biomatter purchase.
                 </p>
               </div>
             </div>
@@ -440,7 +449,7 @@ export default function BiomatterApp() {
         </div>
       )}
 
-      {/* Bottom Navigation */}
+      {/* Simple Bottom Bar Placeholder */}
       <BottomBar/>
     </div>
   );

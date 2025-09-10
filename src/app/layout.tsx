@@ -1,6 +1,5 @@
 import "./globals.css";
-import KPlusBankingApp from "./landing-farmers/landing";
-import MobileTable from "./marketplace-business/marketplace";
+import BiomatterApp from "./marketplace-business/marketplace";
 
 
 export default function RootLayout({
@@ -11,7 +10,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <MobileTable />
+        <BiomatterApp />
       </body>
     </html>
   );
