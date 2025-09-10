@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
-import { ChevronLeft, MapPin, Clock, CheckCircle, Package, Truck, FileText, Users, CreditCard } from 'lucide-react';
+import { MapPin, Clock, CheckCircle, Truck, FileText, Users, CreditCard, Leaf } from 'lucide-react';
 import Logo from '../components/logo';
 import BottomBar from '../components/bottom-bar';
 
@@ -31,8 +31,8 @@ interface DeliveryData {
 
 export default function DeliveryTracker() {
   const [selectedStatus, setSelectedStatus] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState("tracking");
   
-  // Mock data for parcel counts at each status
   const [statusCounts] = useState<StatusCount[]>([
     {
       status: "Pending Request",
@@ -51,14 +51,14 @@ export default function DeliveryTracker() {
     {
       status: "Tractor Gathering",
       count: 5,
-      icon: Truck,
+      icon: Leaf,
       color: "text-purple-600",
       bgColor: "bg-purple-100 hover:bg-purple-200 border-purple-300"
     },
     {
-      status: "Inspection",
+      status: "Transport",
       count: 3,
-      icon: Package,
+      icon: Truck,
       color: "text-indigo-600",
       bgColor: "bg-indigo-100 hover:bg-indigo-200 border-indigo-300"
     },
@@ -71,7 +71,7 @@ export default function DeliveryTracker() {
     },
     {
       status: "Completed",
-      count: 24,
+      count: 0,
       icon: CheckCircle,
       color: "text-green-600",
       bgColor: "bg-green-100 hover:bg-green-200 border-green-300"
@@ -87,31 +87,31 @@ export default function DeliveryTracker() {
     events: [
       {
         id: 1,
-        status: "Parcel received by origin outlet",
+        status: "Order received by origin outlet",
         timestamp: "2024-04-02 20:10:05",
         location: "Bulacan Hub"
       },
       {
         id: 2,
-        status: "Parcel outbound to next station",
+        status: "Order outbound to next station",
         timestamp: "2024-04-02 20:30:40",
         location: "Bulacan Hub"
       },
       {
         id: 3,
-        status: "Parcel arrived at outlet",
+        status: "Order arrived at outlet",
         timestamp: "2024-04-02 23:54:34",
         location: "Manila Transit"
       },
       {
         id: 4,
-        status: "Parcel outbound to next station",
+        status: "Order outbound to next station",
         timestamp: "2024-04-03 04:51:06",
         location: "Manila Transit"
       },
       {
         id: 5,
-        status: "Parcel arrived at outlet",
+        status: "Order arrived at outlet",
         timestamp: "2024-04-04 07:17:06",
         location: "Oriental Mindoro Hub"
       }
@@ -131,7 +131,7 @@ export default function DeliveryTracker() {
       {/* Interactive Status Progress Bar */}
       <div className="p-4">
         <div className="bg-white rounded-lg shadow-sm border p-6 mb-4">
-          <div className="text-sm font-medium text-gray-700 mb-6">Parcel Status Overview</div>
+          <div className="text-sm font-medium text-gray-700 mb-6">Request Status Overview</div>
           
           {/* Horizontal Progress Steps */}
           <div className="relative">
@@ -222,7 +222,7 @@ export default function DeliveryTracker() {
             </div>
             <div className="text-sm text-gray-600">
               <div className="mb-2">
-                <span className="font-medium">Count:</span> {statusCounts.find(s => s.status === selectedStatus)?.count} parcels
+                <span className="font-medium">Count:</span> {statusCounts.find(s => s.status === selectedStatus)?.count} requests
               </div>
               <div className="mb-2">
                 <span className="font-medium">Status:</span> Active processing
@@ -278,7 +278,7 @@ export default function DeliveryTracker() {
           </div>
         </div>
         </div>
-        <BottomBar />
+       <BottomBar activeTab={activeTab} setActiveTab={setActiveTab} />
     </div>
   );
 }
