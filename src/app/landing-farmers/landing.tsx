@@ -2,11 +2,6 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
-import { 
-  Home,
-  ShoppingCart,
-  QrCode,
-} from 'lucide-react';
 import BottomBar from '../components/bottom-bar';
 
 export default function KPlusBankingApp({ children }: { children: React.ReactNode })  {
