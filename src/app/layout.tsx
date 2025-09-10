@@ -1,5 +1,5 @@
 import "./globals.css";
-import BiomatterApp from "./marketplace-business/marketplace";
+import DeliveryTracker from "./tracking-farmers/tracking";
 
 
 export default function RootLayout({
@@ -10,7 +10,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <BiomatterApp />
+        <DeliveryTracker />
       </body>
     </html>
   );
