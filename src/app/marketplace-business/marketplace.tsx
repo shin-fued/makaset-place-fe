@@ -6,11 +6,9 @@ import {
   Filter, 
   ChevronUp, 
   ChevronDown, 
-  Home, 
-  ShoppingCart, 
-  QrCode 
 } from 'lucide-react';
 import Image from 'next/image';
+import BottomBar from '../components/bottom-bar';
 
 export default function BiomatterApp() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -198,14 +196,14 @@ export default function BiomatterApp() {
             </div>
 
             {/* Table Rows */}
-            <div className="divide-y divide-gray-200">
+            <div className="divide-y divide-gray-200 py">
               {filteredAndSortedData.length === 0 ? (
                 <div className="px-6 py-12 text-center">
                   <p className="text-gray-500">No farmers found matching your search.</p>
                 </div>
               ) : (
                 filteredAndSortedData.map((item) => (
-                  <div key={item.id} className="p-4 hover:bg-gray-50 transition-colors">
+                  <div key={item.id} className="p-4 rounded-xl border border-gray-200 shadow-sm hover:bg-gray-50 transition-colors mb-4">
                     {/* Mobile Card Layout */}
                     <div className="md:hidden space-y-3">
                       <div className="flex justify-between items-start">
@@ -280,38 +278,7 @@ export default function BiomatterApp() {
       </div>
 
       {/* Bottom Navigation */}
-      <div className="fixed bottom-0 left-0 right-0 bg-yellow-700 rounded-t-3xl px-2 py-3 shadow-lg">
-        <div className="flex justify-around items-center max-w-md mx-auto">
-          <div className="flex flex-col items-center gap-1">
-            <Home size={22} className="text-gray-400" />
-            <span className="text-xs text-gray-400 font-medium">Dashboard</span>
-          </div>
-          <div className="flex flex-col items-center gap-1">
-            <ShoppingCart size={22} className="text-black-500" />
-            <span className="text-xs text-black-500">Market Place</span>
-          </div>
-          <div className="flex flex-col items-center gap-1">
-            <button className="bg-green-600 rounded-full p-3 shadow-lg hover:bg-green-700 transition flex items-center justify-center">
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
-                <path d="M12 5v14M5 12h14" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </button>
-            <span className="text-xs text-white font-medium">Request</span>
-          </div>
-          <div className="flex flex-col items-center gap-1">
-            <QrCode size={22} className="text-gray-400" />
-            <span className="text-xs text-gray-400">Tracking</span>
-          </div>
-          <div className="flex flex-col items-center gap-1">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-              <circle cx="5" cy="12" r="2" fill="#9CA3AF" />
-              <circle cx="12" cy="12" r="2" fill="#9CA3AF" />
-              <circle cx="19" cy="12" r="2" fill="#9CA3AF" />
-            </svg>
-            <span className="text-xs text-gray-400">Others</span>
-          </div>
-        </div>
-      </div>
+      <BottomBar/>
     </div>
   );
 }
