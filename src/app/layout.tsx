@@ -1,6 +1,4 @@
 import "./globals.css";
-import DeliveryTracker from "./tracking-farmers/tracking";
-
 
 export default function RootLayout({
   children,
@@ -10,7 +8,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <DeliveryTracker />
+        {children}
       </body>
     </html>
   );
