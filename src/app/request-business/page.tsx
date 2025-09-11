@@ -51,7 +51,9 @@ export default function BusinessRequest({ children }: { children: React.ReactNod
                 name="plantType"
                 value={form.plantType}
                 onChange={handleChange}
-                className="mt-1 block w-full rounded-lg border border-gray-300 shadow-sm p-3 focus:ring-blue-500 focus:border-blue-500 bg-white"
+                className={`mt-1 block w-full rounded-lg border border-gray-300 shadow-sm p-3 focus:ring-blue-500 focus:border-blue-500 bg-white
+    ${form.plantType ? "text-gray-900" : "text-gray-400"}
+  `}
                 required
               >
                 <option value="">Select type</option>
@@ -71,7 +73,9 @@ export default function BusinessRequest({ children }: { children: React.ReactNod
                 name="amount"
                 value={form.amount}
                 onChange={handleChange}
-                className="mt-1 block w-full rounded-lg border border-gray-300 shadow-sm p-3 focus:ring-blue-500 focus:border-blue-500"
+                className={`mt-1 block w-full rounded-lg border border-gray-300 shadow-sm p-3 focus:ring-blue-500 focus:border-blue-500 bg-white
+    ${form.plantType ? "text-gray-900" : "text-gray-400"}
+  `}
                 placeholder="Enter amount"
                 required />
             </div>
@@ -88,7 +92,9 @@ export default function BusinessRequest({ children }: { children: React.ReactNod
                 name="price"
                 value={form.price}
                 onChange={handleChange}
-                className="mt-1 block w-full rounded-lg border border-gray-300 shadow-sm p-3 focus:ring-blue-500 focus:border-blue-500"
+                className={`mt-1 block w-full rounded-lg border border-gray-300 shadow-sm p-3 focus:ring-blue-500 focus:border-blue-500 bg-white
+    ${form.plantType ? "text-gray-900" : "text-gray-400"}
+  `}
                 placeholder="Enter price"
                 required />
             </div>
@@ -103,7 +109,9 @@ export default function BusinessRequest({ children }: { children: React.ReactNod
                 name="amount"
                 value={form.deliveryAddress}
                 onChange={handleChange}
-                className="mt-1 block w-full rounded-lg border border-gray-300 shadow-sm p-3 focus:ring-blue-500 focus:border-blue-500"
+                className={`mt-1 block w-full rounded-lg border border-gray-300 shadow-sm p-3 focus:ring-blue-500 focus:border-blue-500 bg-white
+    ${form.plantType ? "text-gray-900" : "text-gray-400"}
+  `}
                 placeholder="Enter amount"
                 required />
             </div>
