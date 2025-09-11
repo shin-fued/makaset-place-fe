@@ -1,6 +1,7 @@
 "use client";
 
 import { Home, ShoppingCart, QrCode } from "lucide-react";
+import { usePathname, useRouter } from "next/navigation";
 
 interface BottomBarProps {
   activeTab: string;
@@ -8,13 +9,39 @@ interface BottomBarProps {
 }
 
 export default function BottomBar({ activeTab, setActiveTab }: BottomBarProps) {
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const navigate = (tab: string) => {
+    setActiveTab(tab);
+    switch (tab) {
+      case "dashboard":
+        router.push("/dashboard");
+        break;
+      case "market":
+        router.push("/marketplace-business");
+        break;
+      case "request":
+        router.push("/request-business");
+        break;
+      case "tracking":
+        router.push("/tracking");
+        break;
+      case "others":
+        router.push("/profile-settings");
+        break;
+      default:
+        break;
+    }
+  };
+
   return (
     <div className="fixed bottom-0 left-0 right-0 bg-yellow-100 rounded-t-3xl px-2 py-3 shadow-lg">
       <div className="flex justify-around items-center max-w-md mx-auto">
         
         {/* Dashboard */}
         <button
-          onClick={() => setActiveTab("dashboard")}
+          onClick={() => navigate("dashboard")}
           className="flex flex-col items-center gap-1"
         >
           <Home size={22} className={activeTab === "dashboard" ? "text-green-600" : "text-gray-400"} />
@@ -25,7 +52,7 @@ export default function BottomBar({ activeTab, setActiveTab }: BottomBarProps) {
 
         {/* Market Place */}
         <button
-          onClick={() => setActiveTab("market")}
+          onClick={() => navigate("market")}
           className="flex flex-col items-center gap-1"
         >
           <ShoppingCart size={22} className={activeTab === "market" ? "text-green-600" : "text-gray-400"} />
@@ -36,7 +63,7 @@ export default function BottomBar({ activeTab, setActiveTab }: BottomBarProps) {
 
         {/* Request */}
         <button
-          onClick={() => setActiveTab("request")}
+          onClick={() => navigate("request")}
           className="flex flex-col items-center gap-1"
         >
           <div className={`rounded-full p-3 shadow-lg transition flex items-center justify-center 
@@ -58,7 +85,7 @@ export default function BottomBar({ activeTab, setActiveTab }: BottomBarProps) {
 
         {/* Tracking */}
         <button
-          onClick={() => setActiveTab("tracking")}
+          onClick={() => navigate("tracking")}
           className="flex flex-col items-center gap-1"
         >
           <QrCode size={22} className={activeTab === "tracking" ? "text-green-600" : "text-gray-400"} />
@@ -69,7 +96,7 @@ export default function BottomBar({ activeTab, setActiveTab }: BottomBarProps) {
 
         {/* Others */}
         <button
-          onClick={() => setActiveTab("others")}
+          onClick={() => navigate("others")}
           className="flex flex-col items-center gap-1"
         >
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
