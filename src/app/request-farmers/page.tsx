@@ -52,14 +52,16 @@ export default function FarmerRequest({ children }: { children: React.ReactNode 
                 name="plantType"
                 value={form.plantType}
                 onChange={handleChange}
-                className="mt-1 block w-full rounded-lg border border-gray-300 shadow-sm p-3 focus:ring-blue-500 focus:border-blue-500 bg-white"
+                className={`mt-1 block w-full rounded-lg border border-gray-300 shadow-sm p-3 focus:ring-blue-500 focus:border-blue-500 bg-white
+    ${form.plantType ? "text-gray-900" : "text-gray-400"}
+  `}
                 required
               >
                 <option value="">Select type</option>
-                <option value="rice">Rice</option>
-                <option value="corn">Corn</option>
-                <option value="wheat">Wheat</option>
-                <option value="other">Other</option>
+                <option value="rice" className="text-gray-900 font-medium">Rice</option>
+                <option value="corn" className="text-gray-900 font-medium">Corn</option>
+                <option value="wheat" className="text-gray-900 font-medium">Wheat</option>
+                <option value="other" className="text-gray-900 font-medium">Other</option>
               </select>
             </div>
 
@@ -71,12 +73,14 @@ export default function FarmerRequest({ children }: { children: React.ReactNode 
                 name="selectedField"
                 value={form.selectedField}
                 onChange={handleChange}
-                className="mt-1 block w-full rounded-lg border border-gray-300 shadow-sm p-3 focus:ring-blue-500 focus:border-blue-500 bg-white"
+                className={`mt-1 block w-full rounded-lg border border-gray-300 shadow-sm p-3 focus:ring-blue-500 focus:border-blue-500 bg-white
+    ${form.plantType ? "text-gray-900" : "text-gray-400"}
+  `}
                 required
               >
                 <option value="">Select Field</option>
-                <option value="field1">Field 1</option>
-                <option value="field2">Field 2</option>
+                <option value="field1" className="text-gray-900 font-medium">Field 1</option>
+                <option value="field2" className="text-gray-900 font-medium">Field 2</option>
               </select>
             </div>
 
@@ -91,13 +95,15 @@ export default function FarmerRequest({ children }: { children: React.ReactNode 
                 name="timeFrame"
                 value={form.timeFrame}
                 onChange={handleChange}
-                className="mt-1 block w-full rounded-lg border border-gray-300 shadow-sm p-3 focus:ring-blue-500 focus:border-blue-500 bg-white"
+                className={`mt-1 block w-full rounded-lg border border-gray-300 shadow-sm p-3 focus:ring-blue-500 focus:border-blue-500 bg-white
+    ${form.plantType ? "text-gray-900" : "text-gray-400"}
+  `}
                 required
               >
                 <option value="">timeFrame</option>
-                <option value="days1">1 day</option>
-                <option value="days2">2 days</option>
-                <option value="week">7 days</option>
+                <option value="days1" className="text-gray-900 font-medium">1 day</option>
+                <option value="days2" className="text-gray-900 font-medium">2 days</option>
+                <option value="week" className="text-gray-900 font-medium">7 days</option>
               </select>
             </div>
           </div>
@@ -111,7 +117,7 @@ export default function FarmerRequest({ children }: { children: React.ReactNode 
                   name="priceMin"
                   value={form.priceMin || ""}
                   onChange={handleChange}
-                  className="mt-1 block w-1/2 rounded-lg border border-gray-300 shadow-sm p-3 focus:ring-blue-500 focus:border-blue-500"
+                  className="mt-1 block w-1/2 rounded-lg border border-gray-300 shadow-sm p-3 focus:ring-blue-500 focus:border-blue-500 text-gray-900"
                   placeholder="Min"
                   required
                 />
@@ -120,7 +126,7 @@ export default function FarmerRequest({ children }: { children: React.ReactNode 
                   name="priceMax"
                   value={form.priceMax || ""}
                   onChange={handleChange}
-                  className="mt-1 block w-1/2 rounded-lg border border-gray-300 shadow-sm p-3 focus:ring-blue-500 focus:border-blue-500"
+                  className="mt-1 block w-1/2 rounded-lg border border-gray-300 shadow-sm p-3 focus:ring-blue-500 focus:border-blue-500 text-gray-900"
                   placeholder="Max"
                   required
                 />
@@ -129,7 +135,7 @@ export default function FarmerRequest({ children }: { children: React.ReactNode 
 
           <button
             onClick={handleSubmit}
-            className="w-full bg-green-600 text-white font-semibold py-3 px-4 rounded-lg shadow-md hover:bg-blue-700 transition duration-200 mt-8"
+            className="w-full bg-green-600 text-white py-3 px-4 rounded-lg shadow-md hover:bg-blue-700 transition duration-200 mt-8"
           >
             Confirm
           </button>

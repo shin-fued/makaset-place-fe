@@ -19,10 +19,10 @@ export default function BottomBar({ activeTab, setActiveTab }: BottomBarProps) {
         router.push("/dashboard");
         break;
       case "market":
-        router.push("/marketplace-business");
+        router.push("/marketplace-farmers");
         break;
       case "request":
-        router.push("/request-business");
+        router.push("/request-farmers");
         break;
       case "tracking":
         router.push("/tracking");
