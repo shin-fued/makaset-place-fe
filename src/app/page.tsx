@@ -1,5 +1,6 @@
 import AuthPage from './components/AuthPage';
+import Dashboard from './dashboard/dashboard';
 
 export default function HomePage() {
-  return <AuthPage />;
+  return <Dashboard />;
 }

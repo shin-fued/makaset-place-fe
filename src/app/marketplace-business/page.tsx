@@ -28,7 +28,7 @@ interface RowData {
   postedDate: string;
 }
 
-export default function BiomatterApp() {
+export default function BusinessMarketPlace() {
   const [searchTerm, setSearchTerm] = useState('');
     const [sortConfig, setSortConfig] = useState({ key: "", direction: 'asc' });
     const [showFilters, setShowFilters] = useState(false);
