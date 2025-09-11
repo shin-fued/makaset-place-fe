@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Mail, Lock, Eye, EyeOff, Phone, User } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 interface LoginData {
   email: string;
@@ -31,6 +32,7 @@ export default function LoginForm({ onSwitchToSignup }: LoginFormProps) {
   const [errors, setErrors] = useState<Partial<LoginData>>({});
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const router = useRouter();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
@@ -82,7 +84,8 @@ export default function LoginForm({ onSwitchToSignup }: LoginFormProps) {
       // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 2000));
       console.log('Login submitted:', formData);
-      // Handle successful login here
+      // Navigate to dashboard after successful login
+      router.push('/dashboard');
     } catch (error) {
       console.error('Login error:', error);
     } finally {
