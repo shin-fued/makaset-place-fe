@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import BottomBar from '../components/bottom-bar';
 
-export default function KPlusBankingApp({ children }: { children: React.ReactNode })  {
+export default function FarmerRequest({ children }: { children: React.ReactNode })  {
   const [form, setForm] = useState({
       plantType: "",
       selectedField: "",
