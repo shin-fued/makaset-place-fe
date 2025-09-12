@@ -5,6 +5,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { User, Mail, Lock, Phone, MapPin, Building2, Hash, Crop, Factory, Package } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { useUser } from '@/contexts/UserContext';
 
 interface FormData {
   firstName: string;
@@ -55,6 +57,8 @@ export default function SignUpForm({ onSwitchToLogin }: SignUpFormProps) {
 
   const [errors, setErrors] = useState<Partial<FormData>>({});
   const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
+  const { setLoginType, setIsLoggedIn } = useUser();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -120,7 +124,17 @@ export default function SignUpForm({ onSwitchToLogin }: SignUpFormProps) {
       // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 2000));
       console.log('Form submitted:', formData);
-      // Handle successful signup here
+      
+      // Set login type and logged in status in context
+      setLoginType(formData.userType);
+      setIsLoggedIn(true);
+      
+      // Navigate to appropriate page based on user type
+      if (formData.userType === 'business') {
+        router.push('/marketplace-business');
+      } else {
+        router.push('/marketplace-farmers');
+      }
     } catch (error) {
       console.error('Signup error:', error);
     } finally {

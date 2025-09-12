@@ -281,7 +281,7 @@ const Dashboard = () => {
           animation: slide-down 0.3s ease-out;
         }
       `}</style>
-        <BottomBar activeTab={activeTab} setActiveTab={setActiveTab}/>
+        <BottomBar activeTab={activeTab} setActiveTab={setActiveTab} />
     </div>
   );
 };

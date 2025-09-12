@@ -279,7 +279,7 @@ const MobileAccountSettings: React.FC = () => {
         </div>
       )}
 
-        <BottomBar setActiveTab={setActiveTab} activeTab={activeTab}/>
+        <BottomBar setActiveTab={setActiveTab} activeTab={activeTab} />
       {/* Bottom Safe Area */}
       <div className="h-8"></div>
     </div>
