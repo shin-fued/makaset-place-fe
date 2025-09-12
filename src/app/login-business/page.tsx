@@ -13,8 +13,8 @@ export default function LoginBusinessPage() {
     e.preventDefault();
     // Implement your login logic here
     console.log('Logging in with:', { email, password });
-    // On successful login, redirect to the business dashboard
-    router.push('/business-dashboard');
+    // On successful login, redirect to the business marketplace
+    router.push('/marketplace-business');
   };
 
   return (

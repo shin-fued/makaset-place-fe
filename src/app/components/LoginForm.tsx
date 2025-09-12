@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Mail, Lock, Eye, EyeOff, Phone, User } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { useUser } from '@/contexts/UserContext';
 
 interface LoginData {
   email: string;
@@ -21,7 +22,7 @@ interface LoginFormProps {
 type LoginType = 'farmer' | 'business';
 
 export default function LoginForm({ onSwitchToSignup }: LoginFormProps) {
-  const [loginType, setLoginType] = useState<LoginType>('farmer');
+  const [localLoginType, setLocalLoginType] = useState<LoginType>('farmer');
   const [formData, setFormData] = useState<LoginData>({
     email: '',
     phone: '',
@@ -33,6 +34,7 @@ export default function LoginForm({ onSwitchToSignup }: LoginFormProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
+  const { setLoginType, setIsLoggedIn } = useUser();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
@@ -53,7 +55,7 @@ export default function LoginForm({ onSwitchToSignup }: LoginFormProps) {
   const validateForm = (): boolean => {
     const newErrors: Partial<LoginData> = {};
 
-    if (loginType === 'business') {
+    if (localLoginType === 'business') {
       if (!formData.email.trim()) {
         newErrors.email = 'Email is required';
       } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
@@ -84,8 +86,17 @@ export default function LoginForm({ onSwitchToSignup }: LoginFormProps) {
       // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 2000));
       console.log('Login submitted:', formData);
-      // Navigate to dashboard after successful login
-      router.push('/dashboard');
+      
+      // Set login type and logged in status in context
+      setLoginType(localLoginType);
+      setIsLoggedIn(true);
+      
+      // Navigate to appropriate page based on user type
+      if (localLoginType === 'business') {
+        router.push('/marketplace-business');
+      } else {
+        router.push('/marketplace-farmers');
+      }
     } catch (error) {
       console.error('Login error:', error);
     } finally {
@@ -110,9 +121,9 @@ export default function LoginForm({ onSwitchToSignup }: LoginFormProps) {
             <div className="grid grid-cols-2 gap-2">
               <button
                 type="button"
-                onClick={() => setLoginType('farmer')}
+                onClick={() => setLocalLoginType('farmer')}
                 className={`p-3 text-sm font-medium rounded-md border transition-colors ${
-                  loginType === 'farmer'
+                  localLoginType === 'farmer'
                     ? 'bg-green-50 border-green-300 text-green-700'
                     : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-50'
                 }`}
@@ -122,9 +133,9 @@ export default function LoginForm({ onSwitchToSignup }: LoginFormProps) {
               </button>
               <button
                 type="button"
-                onClick={() => setLoginType('business')}
+                onClick={() => setLocalLoginType('business')}
                 className={`p-3 text-sm font-medium rounded-md border transition-colors ${
-                  loginType === 'business'
+                  localLoginType === 'business'
                     ? 'bg-blue-50 border-blue-300 text-blue-700'
                     : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-50'
                 }`}
@@ -137,27 +148,27 @@ export default function LoginForm({ onSwitchToSignup }: LoginFormProps) {
 
           {/* Email (Business) or Phone (Farmer) */}
           <div className="space-y-2">
-            <Label htmlFor={loginType === 'business' ? 'email' : 'phone'} className="text-sm font-medium text-gray-700">
-              {loginType === 'business' ? 'Email Address' : 'Phone Number'}
+            <Label htmlFor={localLoginType === 'business' ? 'email' : 'phone'} className="text-sm font-medium text-gray-700">
+              {localLoginType === 'business' ? 'Email Address' : 'Phone Number'}
             </Label>
             <div className="relative">
-              {loginType === 'business' ? (
+              {localLoginType === 'business' ? (
                 <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
               ) : (
                 <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
               )}
               <Input
-                id={loginType === 'business' ? 'email' : 'phone'}
-                name={loginType === 'business' ? 'email' : 'phone'}
-                type={loginType === 'business' ? 'email' : 'tel'}
-                placeholder={loginType === 'business' ? 'john@example.com' : '+63 912 345 6789'}
-                value={loginType === 'business' ? formData.email : formData.phone}
+                id={localLoginType === 'business' ? 'email' : 'phone'}
+                name={localLoginType === 'business' ? 'email' : 'phone'}
+                type={localLoginType === 'business' ? 'email' : 'tel'}
+                placeholder={localLoginType === 'business' ? 'john@example.com' : '+63 912 345 6789'}
+                value={localLoginType === 'business' ? formData.email : formData.phone}
                 onChange={handleInputChange}
-                className={`pl-10 ${errors[loginType === 'business' ? 'email' : 'phone'] ? 'border-red-500' : ''}`}
+                className={`pl-10 ${errors[localLoginType === 'business' ? 'email' : 'phone'] ? 'border-red-500' : ''}`}
               />
             </div>
-            {errors[loginType === 'business' ? 'email' : 'phone'] && (
-              <p className="text-sm text-red-600">{errors[loginType === 'business' ? 'email' : 'phone']}</p>
+            {errors[localLoginType === 'business' ? 'email' : 'phone'] && (
+              <p className="text-sm text-red-600">{errors[localLoginType === 'business' ? 'email' : 'phone']}</p>
             )}
           </div>
 
@@ -214,13 +225,13 @@ export default function LoginForm({ onSwitchToSignup }: LoginFormProps) {
           <Button
             type="submit"
             className={`w-full font-medium py-2.5 rounded-md transition-colors ${
-              loginType === 'farmer' 
+              localLoginType === 'farmer' 
                 ? 'bg-green-700 hover:bg-green-700 text-white' 
                 : 'bg-blue-600 hover:bg-blue-700 text-white'
             }`}
             disabled={isLoading}
           >
-            {isLoading ? 'Signing In...' : `Sign in as ${loginType === 'farmer' ? 'Farmer' : 'Business'}`}
+            {isLoading ? 'Signing In...' : `Sign in as ${localLoginType === 'farmer' ? 'Farmer' : 'Business'}`}
           </Button>
 
           {/* Divider */}

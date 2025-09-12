@@ -2,6 +2,7 @@
 
 import { Home, ShoppingCart, QrCode } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
+import { useUser } from "@/contexts/UserContext";
 
 interface BottomBarProps {
   activeTab: string;
@@ -11,6 +12,7 @@ interface BottomBarProps {
 export default function BottomBar({ activeTab, setActiveTab }: BottomBarProps) {
   const router = useRouter();
   const pathname = usePathname();
+  const { loginType } = useUser();
 
   const navigate = (tab: string) => {
     setActiveTab(tab);
@@ -19,10 +21,20 @@ export default function BottomBar({ activeTab, setActiveTab }: BottomBarProps) {
         router.push("/dashboard");
         break;
       case "market":
-        router.push("/marketplace-farmers");
+        // Route to appropriate marketplace based on login type
+        if (loginType === 'business') {
+          router.push("/marketplace-business");
+        } else {
+          router.push("/marketplace-farmers");
+        }
         break;
       case "request":
-        router.push("/request-farmers");
+        // Route to appropriate request page based on login type
+        if (loginType === 'business') {
+          router.push("/request-business");
+        } else {
+          router.push("/request-farmers");
+        }
         break;
       case "tracking":
         router.push("/tracking");
