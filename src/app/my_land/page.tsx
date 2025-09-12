@@ -12,7 +12,7 @@ const myFields = [
     location: "Chiang Mai",
     plantType: "Rice",
     size: "15 rai",
-  image: "/field-map.jpg",
+    image: "/field-map.jpg",
   },
   {
     id: 2,
@@ -20,7 +20,7 @@ const myFields = [
     location: "Chiang Mai",
     plantType: "Corn",
     size: "8 rai",
-  image: "/field-map.jpg",
+    image: "/field-map.jpg",
   },
   {
     id: 3,
@@ -28,7 +28,7 @@ const myFields = [
     location: "Chiang Mai",
     plantType: "Cassava",
     size: "20 rai",
-  image: "/field-map.jpg",
+    image: "/field-map.jpg",
   },
 ];
 
