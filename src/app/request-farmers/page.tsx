@@ -1,21 +1,61 @@
 "use client"
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import BottomBar from '../components/bottom-bar';
+import { X } from 'lucide-react';
 
 export default function FarmerRequest({ children }: { children: React.ReactNode })  {
   const [form, setForm] = useState({
       plantType: "",
-      selectedField: "",
+      selectedFields: [] as string[],
       timeFrame: "",
-      priceMin: "",
-      priceMax: "",
     });
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const [showFieldDropdown, setShowFieldDropdown] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
   const [activeTab, setActiveTab] = useState("request");
+
+  const fieldOptions = [
+    { value: "field1", label: "North Field - 5 rai (Rice)" },
+    { value: "field2", label: "South Field - 3 rai (Corn)" },
+    { value: "field3", label: "East Field - 7 rai (Wheat)" },
+    { value: "field4", label: "West Field - 4 rai (Vegetables)" },
+    { value: "field5", label: "Central Field - 6 rai (Sugarcane)" },
+  ];
+
+  const toggleField = (fieldValue: string) => {
+    setForm(prev => ({
+      ...prev,
+      selectedFields: prev.selectedFields.includes(fieldValue)
+        ? prev.selectedFields.filter(f => f !== fieldValue)
+        : [...prev.selectedFields, fieldValue]
+    }));
+  };
+
+  const removeField = (fieldValue: string) => {
+    setForm(prev => ({
+      ...prev,
+      selectedFields: prev.selectedFields.filter(f => f !== fieldValue)
+    }));
+  };
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setShowFieldDropdown(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -67,21 +107,67 @@ export default function FarmerRequest({ children }: { children: React.ReactNode 
 
             <div>
               <label className="block text-xs font-medium text-gray-700 mb-3">
-                Selected Field
+                Select Fields
               </label>
-              <select
-                name="selectedField"
-                value={form.selectedField}
-                onChange={handleChange}
-                className={`mt-1 block w-full rounded-lg border border-gray-300 shadow-sm p-3 focus:ring-blue-500 focus:border-blue-500 bg-white
-    ${form.plantType ? "text-gray-900" : "text-gray-400"}
-  `}
-                required
-              >
-                <option value="">Select Field</option>
-                <option value="field1" className="text-gray-900 font-medium">Field 1</option>
-                <option value="field2" className="text-gray-900 font-medium">Field 2</option>
-              </select>
+              
+              {/* Selected Fields Display */}
+              {form.selectedFields.length > 0 && (
+                <div className="mb-3 flex flex-wrap gap-2">
+                  {form.selectedFields.map(fieldValue => {
+                    const field = fieldOptions.find(f => f.value === fieldValue);
+                    return (
+                      <div key={fieldValue} className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm flex items-center gap-2">
+                        <span>{field?.label}</span>
+                        <button
+                          type="button"
+                          onClick={() => removeField(fieldValue)}
+                          className="hover:bg-green-200 rounded-full p-0.5"
+                        >
+                          <X size={14} />
+                        </button>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+
+              {/* Field Dropdown */}
+              <div className="relative" ref={dropdownRef}>
+                <button
+                  type="button"
+                  onClick={() => setShowFieldDropdown(!showFieldDropdown)}
+                  className={`mt-1 block w-full rounded-lg border border-gray-300 shadow-sm p-3 focus:ring-blue-500 focus:border-blue-500 bg-white text-left
+                    ${form.selectedFields.length > 0 ? "text-gray-900" : "text-gray-400"}
+                  `}
+                >
+                  {form.selectedFields.length > 0 
+                    ? `${form.selectedFields.length} field(s) selected`
+                    : "Select your fields"
+                  }
+                </button>
+                
+                {showFieldDropdown && (
+                  <div className="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-lg shadow-lg max-h-48 overflow-y-auto">
+                    {fieldOptions.map(field => (
+                      <div
+                        key={field.value}
+                        className={`px-3 py-2 cursor-pointer hover:bg-gray-100 flex items-center gap-2 ${
+                          form.selectedFields.includes(field.value) ? 'bg-green-50' : ''
+                        }`}
+                        onClick={() => toggleField(field.value)}
+                      >
+                        <input
+                          type="checkbox"
+                          checked={form.selectedFields.includes(field.value)}
+                          onChange={() => {}}
+                          className="rounded"
+                        />
+                        <span className="text-sm text-gray-900">{field.label}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
 
             <div>
@@ -107,31 +193,7 @@ export default function FarmerRequest({ children }: { children: React.ReactNode 
               </select>
             </div>
           </div>
-           <div>
-              <label className="block text-xs font-medium text-gray-700 mb-3">
-                Sell Price Range (per kg)
-              </label>
-              <div className="flex gap-2">
-                <input
-                  type="number"
-                  name="priceMin"
-                  value={form.priceMin || ""}
-                  onChange={handleChange}
-                  className="mt-1 block w-1/2 rounded-lg border border-gray-300 shadow-sm p-3 focus:ring-blue-500 focus:border-blue-500 text-gray-900"
-                  placeholder="Min"
-                  required
-                />
-                <input
-                  type="number"
-                  name="priceMax"
-                  value={form.priceMax || ""}
-                  onChange={handleChange}
-                  className="mt-1 block w-1/2 rounded-lg border border-gray-300 shadow-sm p-3 focus:ring-blue-500 focus:border-blue-500 text-gray-900"
-                  placeholder="Max"
-                  required
-                />
-              </div>
-            </div>
+
 
           <button
             onClick={handleSubmit}
