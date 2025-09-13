@@ -135,9 +135,6 @@ export default function DeliveryTracker() {
           
           {/* Horizontal Progress Steps */}
           <div className="relative">
-            {/* Progress Line */}
-            <div className="absolute top-8 left-8 right-8 h-1 bg-gray-200 rounded-full"></div>
-            <div className="absolute top-8 left-8 h-1 bg-green-500 rounded-full transition-all duration-500" style={{width: '75%'}}></div>
             
             {/* Status Steps */}
             <div className="flex justify-between relative">

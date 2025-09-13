@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { use, useState } from "react";
 import Logo from "../components/logo";
 import Image from "next/image";
 import BottomBar from "../components/bottom-bar";
@@ -34,6 +34,7 @@ const myFields = [
 
 export default function MyLandPage() {
   const [selectedField, setSelectedField] = useState(myFields[0]);
+  const [activeTab, setActiveTab] = useState("others");
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
@@ -102,7 +103,7 @@ export default function MyLandPage() {
           </div>
         </div>
       </div>
-      <BottomBar />
+      <BottomBar activeTab={activeTab} setActiveTab={setActiveTab}/>
     </div>
   );
 }

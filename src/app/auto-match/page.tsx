@@ -11,6 +11,7 @@ export default function AutoMatchPage() {
   const [matchingProgress, setMatchingProgress] = useState(0);
   const router = useRouter();
   const [matchingTime, setMatchingTime] = useState(0);
+  const [activeTab, setActiveTab] = useState("tracking");
 
   // Simulate the matching process
   useEffect(() => {
@@ -18,6 +19,7 @@ export default function AutoMatchPage() {
     let progressTimer: NodeJS.Timeout;
 
     // Start progress animation
+    // eslint-disable-next-line prefer-const
     progressTimer = setInterval(() => {
       setMatchingProgress(prev => {
         if (prev >= 95) {
@@ -29,6 +31,7 @@ export default function AutoMatchPage() {
     }, 800);
 
     // Track matching time
+    // eslint-disable-next-line prefer-const
     timer = setInterval(() => {
       setMatchingTime(prev => prev + 1);
     }, 1000);
@@ -212,7 +215,7 @@ export default function AutoMatchPage() {
               </div>
               
               <div className="text-center text-gray-600 mb-6">
-                We've formed a compatible group of farmers! Redirecting to review and confirm your new group...
+                We have formed a compatible group of farmers! Redirecting to review and confirm your new group...
               </div>
               
               <div className="flex justify-center">
@@ -226,7 +229,7 @@ export default function AutoMatchPage() {
               </div>
               
               <div className="text-center text-gray-600 mb-6">
-                We couldn't find enough compatible farmers at this time. Please try again later.
+                We could not find enough compatible farmers at this time. Please try again later.
               </div>
               
               <button
@@ -246,7 +249,7 @@ export default function AutoMatchPage() {
           )}
         </div>
       </div>
-      <BottomBar />
+      <BottomBar setActiveTab={setActiveTab} activeTab={activeTab}/>
     </div>
   );
 }
