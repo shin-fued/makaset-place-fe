@@ -52,13 +52,13 @@ export default function BottomBar({ activeTab, setActiveTab }: BottomBarProps) {
   };
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-yellow-100 rounded-t-3xl px-2 py-3 shadow-lg">
-      <div className="flex justify-around items-center max-w-md mx-auto">
+    <div className="fixed bottom-0 left-0 right-0 bg-yellow-100 rounded-t-3xl px-2 pt-2 pb-6 shadow-lg">
+      <div className="flex items-center max-w-md mx-auto">
         
         {/* Dashboard */}
         <button
           onClick={() => navigate("dashboard")}
-          className="flex flex-col items-center gap-1"
+          className="flex flex-col items-center gap-1 flex-1"
         >
           <Home size={22} className={activeTab === "dashboard" ? "text-green-600" : "text-gray-400"} />
           <span className={`text-xs font-medium ${activeTab === "dashboard" ? "text-green-600" : "text-gray-400"}`}>
@@ -69,7 +69,7 @@ export default function BottomBar({ activeTab, setActiveTab }: BottomBarProps) {
         {/* Market Place */}
         <button
           onClick={() => navigate("market")}
-          className="flex flex-col items-center gap-1"
+          className="flex flex-col items-center gap-1 flex-1"
         >
           <ShoppingCart size={22} className={activeTab === "market" ? "text-green-600" : "text-gray-400"} />
           <span className={`text-xs font-medium ${activeTab === "market" ? "text-green-600" : "text-gray-400"}`}>
@@ -80,11 +80,11 @@ export default function BottomBar({ activeTab, setActiveTab }: BottomBarProps) {
         {/* Request */}
         <button
           onClick={() => navigate("request")}
-          className="flex flex-col items-center gap-1"
+          className="flex flex-col items-center gap-0.5 flex-1"
         >
-          <div className={`rounded-full p-3 shadow-lg transition flex items-center justify-center 
+          <div className={`rounded-full p-2 shadow-lg transition flex items-center justify-center 
             ${activeTab === "request" ? "bg-green-700" : "bg-green-600 hover:bg-green-700"}`}>
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
               <path
                 d="M12 5v14M5 12h14"
                 stroke="white"
@@ -102,7 +102,7 @@ export default function BottomBar({ activeTab, setActiveTab }: BottomBarProps) {
         {/* Tracking */}
         <button
           onClick={() => navigate("tracking")}
-          className="flex flex-col items-center gap-1"
+          className="flex flex-col items-center gap-1 flex-1"
         >
           <QrCode size={22} className={activeTab === "tracking" ? "text-green-600" : "text-gray-400"} />
           <span className={`text-xs font-medium ${activeTab === "tracking" ? "text-green-600" : "text-gray-400"}`}>
@@ -113,7 +113,7 @@ export default function BottomBar({ activeTab, setActiveTab }: BottomBarProps) {
         {/* Others */}
         <button
           onClick={() => navigate("others")}
-          className="flex flex-col items-center gap-1"
+          className="flex flex-col items-center gap-1 flex-1"
         >
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
             <circle cx="5" cy="12" r="2" fill={activeTab === "others" ? "#16A34A" : "#9CA3AF"} />
