@@ -8,9 +8,11 @@ import {
   ChevronRight,
   X,
   Check,
+  MapPin,
 } from "lucide-react";
 import Logo from "../components/logo";
 import BottomBar from "../components/bottom-bar";
+import { useRouter } from "next/navigation";
 
 // 🔹 Define item and submenu types
 interface DropdownItem {
@@ -25,7 +27,8 @@ const MobileAccountSettings: React.FC = () => {
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [activeSubmenu, setActiveSubmenu] = useState<string | null>(null);
   const [notification, setNotification] = useState<string | null>(null);
-    const [activeTab, setActiveTab] = useState("others");
+  const [activeTab, setActiveTab] = useState("others");
+  const router = useRouter();
 
   // 🔹 Data arrays
   const accountItems: DropdownItem[] = [
@@ -39,6 +42,12 @@ const MobileAccountSettings: React.FC = () => {
         "Bio & Description",
         "Contact Details",
       ],
+    },
+    {
+      id: "my_land",
+      title: "My Land",
+      icon: <MapPin size={16} />,
+      subItems: null,
     },
     {
       id: "security",
@@ -117,6 +126,12 @@ const MobileAccountSettings: React.FC = () => {
 
   // 🔹 Handle item selection
   const handleSelection = (selection: string) => {
+    // Handle special routing for specific items
+    if (selection === "My Land") {
+      router.push("/my_land");
+      return;
+    }
+    
     setNotification(selection);
     setActiveDropdown(null);
     setActiveSubmenu(null);

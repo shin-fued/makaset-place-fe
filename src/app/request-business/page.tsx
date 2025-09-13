@@ -85,7 +85,7 @@ export default function BusinessRequest({ children }: { children: React.ReactNod
 
             <div>
               <label className="block text-xs font-medium text-gray-700 mb-3">
-                Price Offering (per kg)
+                Minimum Price Offering
               </label>
               <input
                 type="number"

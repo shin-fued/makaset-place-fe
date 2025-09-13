@@ -63,6 +63,7 @@ export default function GroupConfirmationPage() {
   const [decision, setDecision] = useState<'undecided' | 'accepted' | 'declined'>('undecided');
   const [showThankYou, setShowThankYou] = useState(false);
   const router = useRouter();
+  const [activeTab, setActiveTab] = useState("request");
   
   const handleDecision = (choice: 'accepted' | 'declined') => {
     setDecision(choice);
@@ -108,7 +109,7 @@ export default function GroupConfirmationPage() {
                 </div>
                 
                 <p className="text-gray-600 mb-6">
-                  You have successfully joined the farming group. We'll notify all members and help you get started together.
+                  You have successfully joined the farming group. We will notify all members and help you get started together.
                 </p>
                 
                 <div className="flex justify-center">
@@ -118,7 +119,7 @@ export default function GroupConfirmationPage() {
             ) : (
               <>
                 <p className="text-gray-600 mb-6">
-                  No problem. We'll find other potential matches for you. Redirecting back to matching...
+                  No problem. We will find other potential matches for you. Redirecting back to matching...
                 </p>
                 
                 <div className="flex justify-center">
@@ -128,7 +129,7 @@ export default function GroupConfirmationPage() {
             )}
           </div>
         </div>
-        <BottomBar />
+        <BottomBar setActiveTab={setActiveTab} activeTab={activeTab}/>
       </div>
     );
   }
@@ -139,7 +140,7 @@ export default function GroupConfirmationPage() {
       <div className="flex flex-col items-center pt-4 px-4">
         <h1 className="text-xl md:text-2xl font-bold text-green-700 mb-2 text-center">Your New Farming Group</h1>
         <p className="text-sm text-center text-gray-600 mb-6 max-w-md">
-          We've matched you with compatible farmers to form a new group. Review the details below and decide if you want to join.
+          We have matched you with compatible farmers to form a new group. Review the details below and decide if you want to join.
         </p>
       </div>
 
@@ -242,7 +243,7 @@ export default function GroupConfirmationPage() {
           </div>
         </div>
       </div>
-      <BottomBar />
+      <BottomBar activeTab={activeTab} setActiveTab={setActiveTab}/>
     </div>
   );
 }

@@ -18,7 +18,11 @@ export default function BottomBar({ activeTab, setActiveTab }: BottomBarProps) {
     setActiveTab(tab);
     switch (tab) {
       case "dashboard":
-        router.push("/dashboard");
+        if (loginType === 'business') {
+          router.push("/dashboard-business");
+        } else {
+          router.push("/dashboard-farmers");
+        }
         break;
       case "market":
         // Route to appropriate marketplace based on login type
