@@ -1,13 +1,16 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { DollarSign, Clock, CheckCircle, AlertCircle, TrendingUp, Package, Users, ShoppingCart, BarChart3, Calendar } from 'lucide-react';
+import { CheckCircle, TrendingUp, Package, Users, BarChart3, Calendar, ChevronRight } from 'lucide-react';
 import Logo from '../components/logo';
 import BottomBar from '../components/bottom-bar';
+import { useRouter } from 'next/navigation';
 
 export default function DashboardBusinessPage() {
   const [activeTab, setActiveTab] = useState("dashboard");
   const [time, setTime] = useState("");
+  const [isClient, setIsClient] = useState(false);
+  const router = useRouter();
 
   // Sample data for monthly mass orders by crop type
   const monthlyOrders = [
@@ -115,47 +118,9 @@ export default function DashboardBusinessPage() {
     }
   ];
 
-  // Sample data for unmatched buy orders
-  const unmatchedOrders = [
-    {
-      id: 'UO001',
-      crop: 'Rice',
-      quantity: '400kg',
-      maxPrice: 5.50,
-      elapsedTime: '2h 15m',
-      status: 'waiting',
-      orderDate: '2024-01-22'
-    },
-    {
-      id: 'UO002',
-      crop: 'Corn', 
-      quantity: '250kg',
-      maxPrice: 4.20,
-      elapsedTime: '1h 30m',
-      status: 'waiting',
-      orderDate: '2024-01-22'
-    },
-    {
-      id: 'UO003',
-      crop: 'Potato',
-      quantity: '600kg',
-      maxPrice: 2.80,
-      elapsedTime: '45m',
-      status: 'waiting',
-      orderDate: '2024-01-22'
-    },
-    {
-      id: 'UO004',
-      crop: 'Wheat',
-      quantity: '300kg',
-      maxPrice: 6.00,
-      elapsedTime: '3h 20m',
-      status: 'waiting',
-      orderDate: '2024-01-22'
-    }
-  ];
 
   useEffect(() => {
+    setIsClient(true);
     const updateTime = () => setTime(new Date().toLocaleTimeString());
     updateTime();
     const interval = setInterval(updateTime, 1000);
@@ -212,12 +177,12 @@ export default function DashboardBusinessPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50 p-4">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50 p-4 pb-24">
       {/* Header */}
       <Logo />
 
       {/* Monthly Mass Orders by Crop Type */}
-      <div className="mb-6">
+      <div className="mt-6 mb-6">
         <h2 className="text-xl font-bold text-blue-800 mb-4 flex items-center">
           <BarChart3 className="w-5 h-5 mr-2" />
           Monthly Mass Orders by Crop Type
@@ -267,7 +232,7 @@ export default function DashboardBusinessPage() {
         </h2>
         
         <div className="space-y-4">
-          {matchedOrders.map((order) => (
+          {matchedOrders.slice(0, 3).map((order) => (
             <div key={order.id} className="bg-white rounded-xl p-4 shadow-sm border border-blue-100">
               <div className="flex items-start justify-between mb-3">
                 <div className="flex items-center space-x-3">
@@ -318,55 +283,25 @@ export default function DashboardBusinessPage() {
             </div>
           ))}
         </div>
+
+        {/* See All Button */}
+        {matchedOrders.length > 3 && (
+          <div className="mt-4 flex justify-center">
+            <button
+              onClick={() => router.push('/all-orders-business')}
+              className="flex items-center space-x-2 bg-blue-600 text-white px-6 py-3 rounded-xl hover:bg-blue-700 transition-colors shadow-sm"
+            >
+              <span className="font-medium">See All Orders</span>
+              <ChevronRight className="w-4 h-4" />
+            </button>
+          </div>
+        )}
       </div>
 
-      {/* Ongoing Unmatched Buy Orders */}
-      <div className="mb-6">
-        <h2 className="text-xl font-bold text-blue-800 mb-4 flex items-center">
-          <AlertCircle className="w-5 h-5 mr-2" />
-          Ongoing Unmatched Buy Orders ({unmatchedOrders.length})
-        </h2>
-        
-        <div className="space-y-4">
-          {unmatchedOrders.map((order) => (
-            <div key={order.id} className="bg-white rounded-xl p-4 shadow-sm border border-orange-100">
-              <div className="flex items-start justify-between mb-3">
-                <div className="flex items-center space-x-3">
-                  <div className="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center">
-                    <ShoppingCart className="w-5 h-5 text-orange-600" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-blue-800">{order.crop}</h3>
-                    <p className="text-sm text-blue-500">{order.quantity}</p>
-                  </div>
-                </div>
-                <div className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(order.status)}`}>
-                  {getStatusText(order.status)}
-                </div>
-              </div>
-
-              <div className="space-y-2">
-                <div className="flex items-center justify-between text-sm text-blue-600">
-                  <span className="font-medium">Max Price: ${order.maxPrice}/kg</span>
-                  <span className="text-orange-600 font-medium">Elapsed: {order.elapsedTime}</span>
-                </div>
-                
-                <div className="flex items-center justify-between text-sm text-blue-600">
-                  <span className="font-medium">Total Value: ${(parseFloat(order.quantity) * order.maxPrice).toFixed(2)}</span>
-                  <div className="flex items-center text-xs text-gray-500">
-                    <Calendar className="w-3 h-3 mr-1" />
-                    <span>{new Date(order.orderDate).toLocaleDateString()}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
 
       {/* Footer */}
       <div className="mt-8 text-center text-sm text-blue-500">
-        Last updated: {time}
+        {isClient && `Last updated: ${time}`}
       </div>
 
       <BottomBar activeTab={activeTab} setActiveTab={setActiveTab} />
