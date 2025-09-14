@@ -45,15 +45,11 @@ export default function BusinessRequest({ children }: { children: React.ReactNod
     return (basePrice * parseFloat(form.amount)).toFixed(2);
   };
 
-  const handleGradeSelect = (grade: string) => {
-    setSelectedGrade(grade);
-    const estimatedCost = calculateEstimatedCost(grade);
-    setCustomPrice(String(estimatedCost));
-  };
+  // Removed handleGradeSelect - rows are now unclickable
 
   const handleConfirmPrice = () => {
-    if (!selectedGrade || !customPrice) {
-      alert("Please select a grade and confirm the price");
+    if (!customPrice) {
+      alert("Please enter a minimum price");
       return;
     }
     setForm({ ...form, price: customPrice });
@@ -157,15 +153,20 @@ export default function BusinessRequest({ children }: { children: React.ReactNod
           </div>
 
         <div className="sticky bottom-0 bg-white pt-4">
-    <button
-      type="submit"
-      className="w-full bg-green-600 text-white font-semibold py-3 px-4 rounded-lg shadow-md hover:bg-green-700 transition duration-200"
-      onClick={() => setShowPricePopup(true)}
-    >
-      
-      Confirm
-    </button>
-  </div>
+          <button
+            type="button"
+            onClick={() => setShowPricePopup(true)}
+            className="w-full bg-blue-600 text-white font-semibold py-3 px-4 rounded-lg shadow-md hover:bg-blue-700 transition duration-200 mb-2"
+          >
+            View Price Estimates
+          </button>
+          <button
+            type="submit"
+            className="w-full bg-green-600 text-white font-semibold py-3 px-4 rounded-lg shadow-md hover:bg-green-700 transition duration-200"
+          >
+            Submit Request
+          </button>
+        </div>
         </form>
 
 {/* Price Estimation Popup */}
@@ -208,34 +209,40 @@ export default function BusinessRequest({ children }: { children: React.ReactNod
                         </div>
                         <p className="text-xs text-gray-600 mb-2">{description}</p>
                         <p className="text-xs text-gray-500">฿{pricePerKg}/kg</p>
+                        <div className="mt-2">
+                          <div className="text-xs text-gray-500 mb-1">Price Range:</div>
+                          <div className="text-xs font-medium text-gray-700">
+                            ฿{pricePerKg} - ฿{(pricePerKg * 1.2).toFixed(1)} per kg
+                          </div>
+                        </div>
                       </div>
                     );
                   })}
                 </div>
 
-                <div className="mt-6 p-4 bg-gray-50 rounded-lg select-none">
+                <div className="mt-6 p-4 bg-gray-50 rounded-lg">
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Adjust Your Minimum Price (฿)
+                    Enter Your Minimum Price Offering (฿)
                   </label>
                   <input
                     type="number"
                     value={customPrice}
                     onChange={(e) => setCustomPrice(e.target.value)}
-                    min={parseFloat(calculateEstimatedCost(selectedGrade))}
+                    min="0"
                     step="0.01"
-                    className="w-full p-3 border border-gray-400 rounded-lg focus:ring-blue-600 focus:border-blue-600 bg-gray-100 text-gray-900 font-medium"
-                    placeholder="Enter your minimum price"
+                    className="w-full p-3 border border-gray-400 rounded-lg focus:ring-blue-600 focus:border-blue-600 bg-white text-gray-900 font-medium"
+                    placeholder="Enter your minimum price per kg"
                   />
-                  <p className="text-xs text-gray-800 font-medium mt-1">
-                    Minimum suggested: ฿{calculateEstimatedCost(selectedGrade)}
+                  <p className="text-xs text-gray-600 mt-1">
+                    Based on {form.amount}kg, total minimum: ฿{(parseFloat(customPrice || "0") * parseFloat(form.amount || "0")).toFixed(2)}
                   </p>
                 </div>
 
                 <button
                   onClick={handleConfirmPrice}
-                  disabled={!selectedGrade || !customPrice}
+                  disabled={!customPrice}
                   className={`w-full font-semibold py-3 px-4 rounded-lg transition duration-200 ${
-                    selectedGrade && customPrice
+                    customPrice
                       ? "bg-green-600 text-white hover:bg-green-700"
                       : "bg-gray-300 text-gray-500 cursor-not-allowed"
                   }`}
