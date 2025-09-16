@@ -32,6 +32,7 @@ const groups = [
 export default function FindExistingGroupsPage() {
   const [joinedGroupId, setJoinedGroupId] = useState<number | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
+  const [activeTab, setActiveTab] = useState("others");
 
   const handleJoin = (id: number) => {
     setJoinedGroupId(id);
@@ -122,7 +123,7 @@ export default function FindExistingGroupsPage() {
           </div>
         </div>
       </div>
-      <BottomBar />
+      <BottomBar setActiveTab={setActiveTab} activeTab={activeTab}/>
     </div>
   );
 }
